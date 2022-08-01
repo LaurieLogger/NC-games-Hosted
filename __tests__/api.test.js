@@ -26,6 +26,12 @@ describe("GET /api/categories", () => {
       .expect(200)
       .then(({ body: { categories } }) => {
         expect(categories).toHaveLength(4);
+        expect(categories[0]).toEqual(
+          expect.objectContaining({
+            slug: expect.any(String),
+            description: expect.any(String),
+          })
+        );
       });
   });
   test("Returns a status of 404 when given path which does not exist", () => {
