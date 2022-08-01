@@ -26,6 +26,7 @@ exports.patchReview = (req, res, next) => {
   const { inc_votes: num } = req.body;
   updateReview(id, num)
     .then((updatedReview) => {
+      console.log(updatedReview);
       res.status(200).send(updatedReview);
     })
     .catch(next);

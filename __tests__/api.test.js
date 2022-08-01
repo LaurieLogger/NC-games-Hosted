@@ -92,14 +92,26 @@ describe("GET /api/reviews/:review_id", () => {
 });
 
 describe("PATCH /api/reviews/:review_id", () => {
-  test("returns status 200 and an object", () => {
+  test.only("returns status 200 and an object", () => {
     const updateVotes = { inc_votes: 10 };
+    const returnObj = {
+      review_id: 1,
+      title: "Agricola",
+      category: "euro game",
+      designer: "Uwe Rosenberg",
+      owner: "mallionaire",
+      review_body: "Farmyard fun!",
+      review_img_url:
+        "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
+      created_at: "2021-01-18T10:00:20.514Z",
+      votes: 11,
+    };
     return request(app)
       .patch("/api/reviews/1")
       .send(updateVotes)
       .expect(200)
       .then(({ body: updatedReview }) => {
-        expect(updatedReview).toBeInstanceOf(Object);
+        expect(updatedReview).toEqual(returnObj);
       });
   });
   test("returns status 200 and a review object with votes property incremented by 10", () => {
