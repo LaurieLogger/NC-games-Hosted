@@ -13,6 +13,11 @@ afterAll(() => {
 
 describe("GET /api/categories", () => {
   test("Returns a status of 200 and all categories", () => {
-    return request(app).get("api/categories").expect(200).then();
+    return request(app)
+      .get("api/categories")
+      .expect(200)
+      .then(({ body: categories }) => {
+        expect(categories).toHaveLength(4);
+      });
   });
 });
