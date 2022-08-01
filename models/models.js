@@ -10,7 +10,6 @@ exports.fetchReviewById = async (id) => {
   const {
     rows: [review],
   } = await db.query(`SELECT * FROM reviews WHERE review_id = $1;`, [id]);
-  console.log(review);
   if (review === undefined) {
     return Promise.reject({
       status: 404,
