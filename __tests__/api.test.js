@@ -39,7 +39,7 @@ describe("GET /api/categories", () => {
       .get("/api/notapath")
       .expect(404)
       .then(({ body }) => {
-        expect(body.msg).toBe("Error 404: Path does not exist");
+        expect(body.msg).toBe("Path does not exist");
       });
   });
 });
@@ -78,7 +78,7 @@ describe("GET /api/reviews/:review_id", () => {
       .get("/api/reviews/67")
       .expect(404)
       .then(({ body }) => {
-        expect(body.msg).toBe("Error 404: Not found");
+        expect(body.msg).toBe("Not found");
       });
   });
   test("Returns a status of 400 when given an invalid id", () => {
@@ -86,7 +86,7 @@ describe("GET /api/reviews/:review_id", () => {
       .get("/api/reviews/invalid_id")
       .expect(400)
       .then(({ body }) => {
-        expect(body.msg).toBe("Error 400: Bad request");
+        expect(body.msg).toBe("Bad request");
       });
   });
 });

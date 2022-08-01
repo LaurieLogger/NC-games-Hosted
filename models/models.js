@@ -13,7 +13,7 @@ exports.fetchReviewById = async (id) => {
   if (review === undefined) {
     return Promise.reject({
       status: 404,
-      msg: "Error 404: Not found",
+      msg: "Not found",
     });
   }
   return review;
