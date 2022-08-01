@@ -12,12 +12,28 @@ afterAll(() => {
 });
 
 describe("GET /api/categories", () => {
+  test("Returns an array", () => {
+    return request(app)
+      .get("/api/categories")
+      .expect(200)
+      .then(({ body: { categories } }) => {
+        expect(categories).toBeInstanceOf(Array);
+      });
+  });
   test("Returns a status of 200 and all categories", () => {
     return request(app)
-      .get("api/categories")
+      .get("/api/categories")
       .expect(200)
-      .then(({ body: categories }) => {
+      .then(({ body: { categories } }) => {
         expect(categories).toHaveLength(4);
+      });
+  });
+  test("Returns a status of 404 when given path which does not exist", () => {
+    return request(app)
+      .get("/api/notapath")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Error 404: Path does not exist");
       });
   });
 });
