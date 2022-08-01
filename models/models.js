@@ -13,8 +13,24 @@ exports.fetchReviewById = async (id) => {
   if (review === undefined) {
     return Promise.reject({
       status: 404,
-      msg: "Error 404: Not found",
+      msg: "Not found",
     });
   }
   return review;
+};
+
+exports.updateReview = async (id, num) => {
+  const {
+    rows: [updatedReview],
+  } = await db.query(
+    `UPDATE reviews SET votes = votes + $2 WHERE review_id = $1 RETURNING *;`,
+    [id, num]
+  );
+  if (updatedReview === undefined) {
+    return Promise.reject({
+      status: 404,
+      msg: "Not found",
+    });
+  }
+  return updatedReview;
 };
