@@ -43,3 +43,50 @@ describe("GET /api/categories", () => {
       });
   });
 });
+
+describe("GET /api/reviews/:review_id", () => {
+  test("returns status of 200 and an object", () => {
+    return request(app)
+      .get("/api/reviews/1")
+      .expect(200)
+      .then(({ body: review }) => {
+        expect(review).toBeInstanceOf(Object);
+      });
+  });
+  test("Returns a status of 200 all key-value pairs", () => {
+    return request(app)
+      .get("/api/reviews/1")
+      .expect(200)
+      .then(({ body: { review } }) => {
+        expect(review).toEqual(
+          expect.objectContaining({
+            review_id: expect.any(Number),
+            title: expect.any(String),
+            category: expect.any(String),
+            designer: expect.any(String),
+            owner: expect.any(String),
+            review_body: expect.any(String),
+            review_img_url: expect.any(String),
+            created_at: expect.any(String),
+            votes: expect.any(Number),
+          })
+        );
+      });
+  });
+  test("Returns a status of 404 when given id which doesn't exist", () => {
+    return request(app)
+      .get("/api/reviews/67")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Error 404: Not found");
+      });
+  });
+  test("Returns a status of 400 when given an invalid id", () => {
+    return request(app)
+      .get("/api/reviews/invalid_id")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Error 400: Bad request");
+      });
+  });
+});
