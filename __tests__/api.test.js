@@ -76,6 +76,14 @@ describe("GET /api/reviews/:review_id", () => {
         );
       });
   });
+  test("Returns a status of 200 all key-value pairs inc comment_count", () => {
+    return request(app)
+      .get("/api/reviews/1")
+      .expect(200)
+      .then(({ body: { review } }) => {
+        expect(review.hasOwnProperty("comment_count")).toBe(true);
+      });
+  });
   test("Returns a status of 404 when given id which doesn't exist", () => {
     return request(app)
       .get("/api/reviews/67")
