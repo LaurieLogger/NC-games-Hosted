@@ -9,8 +9,11 @@ exports.fetchAllCategories = async () => {
 exports.fetchReviewById = async (id) => {
   const {
     rows: [review],
-  } = await db.query(`SELECT * FROM reviews WHERE review_id = $1;`, [id]);
-  if (review === undefined) {
+  } = await db.query(
+    `SELECT reviews.review_id, reviews.title, reviews.category, reviews.designer, reviews.owner, reviews.review_body, reviews.review_img_url, reviews.created_at, reviews.votes, COUNT(comments.comment_id) ::INT AS comment_count FROM reviews LEFT JOIN comments ON reviews.review_id = comments.review_id WHERE reviews.review_id = $1 GROUP BY reviews.review_id;`,
+    [id]
+  );
+  if (!review) {
     return Promise.reject({
       status: 404,
       msg: "Not found",
