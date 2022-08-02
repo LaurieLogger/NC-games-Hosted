@@ -3,6 +3,7 @@ const {
   fetchReviewById,
   updateReview,
   fetchAllUsers,
+  fetchAllReviews,
 } = require(`${__dirname}/../models/models.js`);
 
 exports.getAllCategories = (req, res, next) => {
@@ -36,6 +37,14 @@ exports.getAllUsers = (req, res, next) => {
   fetchAllUsers()
     .then((users) => {
       res.status(200).send({ users });
+    })
+    .catch(next);
+};
+
+exports.getAllReviews = (req, res, next) => {
+  fetchAllReviews()
+    .then((reviews) => {
+      res.status(200).send({ reviews });
     })
     .catch(next);
 };
