@@ -2,6 +2,7 @@ const {
   fetchAllCategories,
   fetchReviewById,
   updateReview,
+  fetchAllUsers,
 } = require(`${__dirname}/../models/models.js`);
 
 exports.getAllCategories = (req, res, next) => {
@@ -26,8 +27,15 @@ exports.patchReview = (req, res, next) => {
   const { inc_votes: num } = req.body;
   updateReview(id, num)
     .then((updatedReview) => {
-      console.log(updatedReview);
       res.status(200).send(updatedReview);
+    })
+    .catch(next);
+};
+
+exports.getAllUsers = (req, res, next) => {
+  fetchAllUsers()
+    .then((users) => {
+      res.status(200).send({ users });
     })
     .catch(next);
 };

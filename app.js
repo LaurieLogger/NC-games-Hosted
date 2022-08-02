@@ -5,6 +5,7 @@ const {
   getAllCategories,
   getReviewById,
   patchReview,
+  getAllUsers,
 } = require(`${__dirname}/controllers/controllers.js`);
 const {
   handleCustomErrors,
@@ -18,6 +19,8 @@ app.get("/api/categories", getAllCategories);
 
 app.get("/api/reviews/:review_id", getReviewById);
 app.patch("/api/reviews/:review_id", patchReview);
+
+app.get("/api/users", getAllUsers);
 
 app.all("*", (req, res) => {
   const msg = { msg: "Path does not exist" };
