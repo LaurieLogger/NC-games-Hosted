@@ -11,6 +11,17 @@ afterAll(() => {
   return db.end();
 });
 
+describe("GET /api/notapath", () => {
+  test("returns a 404 error when given a path which doesn't exist", () => {
+    return request(app)
+      .get("/api/notapath")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Path does not exist");
+      });
+  });
+});
+
 describe("GET /api/categories", () => {
   test("Returns an array", () => {
     return request(app)
@@ -32,14 +43,6 @@ describe("GET /api/categories", () => {
             description: expect.any(String),
           })
         );
-      });
-  });
-  test("Returns a status of 404 when given path which does not exist", () => {
-    return request(app)
-      .get("/api/notapath")
-      .expect(404)
-      .then(({ body }) => {
-        expect(body.msg).toBe("Path does not exist");
       });
   });
 });
@@ -186,14 +189,6 @@ describe("GET /api/users", () => {
           expect(user.name).toEqual(expect.any(String));
           expect(user.avatar_url).toEqual(expect.any(String));
         });
-      });
-  });
-  test("Returns a status of 404 when given path which does not exist", () => {
-    return request(app)
-      .get("/api/notapath")
-      .expect(404)
-      .then(({ body }) => {
-        expect(body.msg).toBe("Path does not exist");
       });
   });
 });
