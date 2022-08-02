@@ -230,3 +230,54 @@ describe("GET /api/reviews", () => {
       });
   });
 });
+
+describe("GET /api/reviews/:review_id/comments", () => {
+  test("returns a status of 200 and an array", () => {
+    return request(app)
+      .get("/api/reviews/2/comments")
+      .expect(200)
+      .then(({ body: { comments } }) => {
+        expect(comments).toBeInstanceOf(Array);
+        expect(comments).toHaveLength(3);
+      });
+  });
+  test("returns an array of comment objects with correct key-value pairs", () => {
+    return request(app)
+      .get("/api/reviews/2/comments")
+      .expect(200)
+      .then(({ body: { comments } }) => {
+        comments.forEach((comment) => {
+          expect(comment.comment_id).toEqual(expect.any(Number));
+          expect(comment.body).toEqual(expect.any(String));
+          expect(comment.review_id).toEqual(expect.any(Number));
+          expect(comment.author).toEqual(expect.any(String));
+          expect(comment.votes).toEqual(expect.any(Number));
+          expect(comment.created_at).toEqual(expect.any(String));
+        });
+      });
+  });
+  test("returns a status of 200 and empty array when review_id exists but no comments are referenced to it", () => {
+    return request(app)
+      .get("/api/reviews/1/comments")
+      .expect(200)
+      .then(({ body: { comments } }) => {
+        expect(comments).toEqual([]);
+      });
+  });
+  test("Returns a status of 404 when given id which doesn't exist", () => {
+    return request(app)
+      .get("/api/reviews/67/comments")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Not found");
+      });
+  });
+  test("Returns a status of 400 when given an invalid id", () => {
+    return request(app)
+      .get("/api/reviews/invalid_id/comments")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Bad request");
+      });
+  });
+});
