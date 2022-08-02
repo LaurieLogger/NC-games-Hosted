@@ -201,3 +201,32 @@ describe("GET /api/users", () => {
       });
   });
 });
+describe("GET /api/reviews", () => {
+  test("returns a status of 200 and an array of objects", () => {
+    return request(app)
+      .get("/api/reviews")
+      .expect(200)
+      .then(({ body: { reviews } }) => {
+        expect(reviews).toBeInstanceOf(Array);
+        expect(reviews).toHaveLength(13);
+      });
+  });
+  test("returns an array of review objects with correct key-value pairs inc comment_count", () => {
+    return request(app)
+      .get("/api/reviews")
+      .expect(200)
+      .then(({ body: { reviews } }) => {
+        reviews.forEach((review) => {
+          expect(review.owner).toEqual(expect.any(String));
+          expect(review.title).toEqual(expect.any(String));
+          expect(review.review_id).toEqual(expect.any(Number));
+          expect(review.category).toEqual(expect.any(String));
+          expect(review.review_img_url).toEqual(expect.any(String));
+          expect(review.created_at).toEqual(expect.any(String));
+          expect(review.votes).toEqual(expect.any(Number));
+          expect(review.designer).toEqual(expect.any(String));
+          expect(review.comment_count).toEqual(expect.any(Number));
+        });
+      });
+  });
+});
