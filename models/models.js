@@ -34,3 +34,9 @@ exports.updateReview = async (id, num) => {
   }
   return updatedReview;
 };
+
+exports.fetchAllUsers = async () => {
+  const { rows: users } = await db.query(`SELECT * FROM users;`);
+
+  return users;
+};

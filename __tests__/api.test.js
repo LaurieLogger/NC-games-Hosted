@@ -92,7 +92,7 @@ describe("GET /api/reviews/:review_id", () => {
 });
 
 describe("PATCH /api/reviews/:review_id", () => {
-  test.only("returns status 200 and an object", () => {
+  test("returns status 200 and an object", () => {
     const updateVotes = { inc_votes: 10 };
     const returnObj = {
       review_id: 1,
@@ -162,6 +162,38 @@ describe("PATCH /api/reviews/:review_id", () => {
       .expect(400)
       .then(({ body }) => {
         expect(body.msg).toBe("Bad request");
+      });
+  });
+});
+
+describe("GET /api/users", () => {
+  test("returns a status of 200 and an array", () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then(({ body: { users } }) => {
+        expect(users).toBeInstanceOf(Array);
+      });
+  });
+  test("returns an array of user objects with correct key-value pairs", () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then(({ body: { users } }) => {
+        expect(users).toHaveLength(4);
+        users.forEach((user) => {
+          expect(user.username).toEqual(expect.any(String));
+          expect(user.name).toEqual(expect.any(String));
+          expect(user.avatar_url).toEqual(expect.any(String));
+        });
+      });
+  });
+  test("Returns a status of 404 when given path which does not exist", () => {
+    return request(app)
+      .get("/api/notapath")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Path does not exist");
       });
   });
 });
