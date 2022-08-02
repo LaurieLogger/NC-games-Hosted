@@ -82,6 +82,7 @@ describe("GET /api/reviews/:review_id", () => {
       .expect(200)
       .then(({ body: { review } }) => {
         expect(review.hasOwnProperty("comment_count")).toBe(true);
+        expect(review.comment_count).toBe(0);
       });
   });
   test("Returns a status of 404 when given id which doesn't exist", () => {
