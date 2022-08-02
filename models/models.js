@@ -51,3 +51,11 @@ exports.fetchAllReviews = async () => {
 
   return reviews;
 };
+
+exports.fetchCommentsByReviewId = async (id) => {
+  const { rows: comments } = await db.query(
+    `SELECT * FROM comments WHERE review_id = $1`,
+    [id]
+  );
+  return comments;
+};
