@@ -399,4 +399,14 @@ describe("POST /api/reviews/:review_id/comments", () => {
         expect(body.msg).toBe("Not found");
       });
   });
+  test("Returns a status of 404 when given username which doesn't exist", () => {
+    const addComment = { username: "notAName", body: "blah blah blah" };
+    return request(app)
+      .post("/api/reviews/1/comments")
+      .send(addComment)
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Not found");
+      });
+  });
 });
