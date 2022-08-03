@@ -13,4 +13,8 @@ exports.handlePsqlErrors = (err, req, res, next) => {
     const errorMsg = { msg: "Bad request" };
     res.status(400).send(errorMsg);
   }
+  if (err.code === "23503") {
+    const errorMsg = { msg: "Not found" };
+    res.status(404).send(errorMsg);
+  }
 };

@@ -281,3 +281,59 @@ describe("GET /api/reviews/:review_id/comments", () => {
       });
   });
 });
+
+describe("POST /api/reviews/:review_id/comments", () => {
+  test("returns status 201 and newly added object", () => {
+    const addComment = { username: "mallionaire", body: "blah blah blah" };
+    const returnObj = {
+      comment_id: 7,
+      body: "blah blah blah",
+      votes: 0,
+      author: "mallionaire",
+      review_id: 1,
+      created_at: "2022-08-02T10:41:48.829Z",
+    };
+    return request(app)
+      .post("/api/reviews/1/comments")
+      .send(addComment)
+      .expect(201)
+      .then(({ body: { newComment } }) => {
+        expect(newComment.comment_id).toBe(7);
+        expect(newComment.body).toBe("blah blah blah");
+        expect(newComment.votes).toBe(0);
+        expect(newComment.author).toBe("mallionaire");
+        expect(newComment.review_id).toBe(1);
+        expect(newComment.created_at).toEqual(expect.any(String));
+      });
+  });
+  test("Returns a status of 400 when given a malformed body/missing fields/incorrect type", () => {
+    const addComment = {};
+    return request(app)
+      .post("/api/reviews/1/comments")
+      .send(addComment)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Bad request");
+      });
+  });
+  test("Returns a status of 400 when given an invalid id", () => {
+    const addComment = { username: "mallionaire", body: "blah blah blah" };
+    return request(app)
+      .post("/api/reviews/invalid_id/comments")
+      .send(addComment)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Bad request");
+      });
+  });
+  test("Returns a status of 404 when given id which doesn't exist", () => {
+    const addComment = { username: "mallionaire", body: "blah blah blah" };
+    return request(app)
+      .post("/api/reviews/67/comments")
+      .send(addComment)
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Not found");
+      });
+  });
+});
