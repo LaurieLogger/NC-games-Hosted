@@ -229,6 +229,69 @@ describe("GET /api/reviews", () => {
         });
       });
   });
+  test("returns an array of review objects sorted by a default of data in a default of descending order", () => {
+    return request(app)
+      .get("/api/reviews")
+      .expect(200)
+      .then(({ body: { reviews } }) => {
+        expect(reviews).toBeSortedBy("created_at", { descending: true });
+      });
+  });
+  test("returns an array of review objects sorted by passed query of review id", () => {
+    return request(app)
+      .get("/api/reviews?sort_by=review_id")
+      .expect(200)
+      .then(({ body: { reviews } }) => {
+        expect(reviews).toBeSortedBy("review_id", { descending: true });
+      });
+  });
+  test("returns an array of review objects sorted by passed query of review id in order of passed query: ascending", () => {
+    return request(app)
+      .get("/api/reviews?sort_by=review_id&order=asc")
+      .expect(200)
+      .then(({ body: { reviews } }) => {
+        expect(reviews).toBeSortedBy("review_id", { ascending: true });
+      });
+  });
+  test("returns an array of review objects filtered by category", () => {
+    return request(app)
+      .get(
+        "/api/reviews?sort_by=review_id&order=asc&category=social%20deduction"
+      )
+      .expect(200)
+      .then(({ body: { reviews } }) => {
+        expect(reviews).toBeSortedBy("review_id", { ascending: true });
+        reviews.forEach((review) => {
+          expect(review.category).toBe("social deduction");
+        });
+      });
+  });
+  test("returns status 400 if given invalid sortBy", () => {
+    return request(app)
+      .get("/api/reviews?sort_by=invalid")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Bad request");
+      });
+  });
+  test("returns status 400 if given invalid order", () => {
+    return request(app)
+      .get("/api/reviews?sort_by=review_id&order=invalid")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Bad request");
+      });
+  });
+  test("returns status 404 if category filtered by doesn't exist doesn't exist", () => {
+    return request(app)
+      .get(
+        "/api/reviews?/api/reviews?sort_by=review_id&order=asc&category=notacategory"
+      )
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("category not found");
+      });
+  });
 });
 
 describe("GET /api/reviews/:review_id/comments", () => {
