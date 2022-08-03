@@ -6,6 +6,7 @@ const {
   fetchAllReviews,
   fetchCommentsByReviewId,
 } = require(`${__dirname}/../models/models.js`);
+const { checkExists } = require(`${__dirname}/../utils/utils.js`);
 
 exports.getAllCategories = (req, res, next) => {
   fetchAllCategories()
@@ -43,8 +44,16 @@ exports.getAllUsers = (req, res, next) => {
 };
 
 exports.getAllReviews = (req, res, next) => {
-  fetchAllReviews()
-    .then((reviews) => {
+  const { sort_by: sortBy } = req.query;
+  const { order } = req.query;
+  const { category } = req.query;
+
+  Promise.all([
+    fetchAllReviews(sortBy, order, category),
+    checkExists("reviews", "category", category),
+  ])
+
+    .then(([reviews]) => {
       res.status(200).send({ reviews });
     })
     .catch(next);

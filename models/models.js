@@ -44,10 +44,38 @@ exports.fetchAllUsers = async () => {
   return users;
 };
 
-exports.fetchAllReviews = async () => {
-  const { rows: reviews } = await db.query(
-    `SELECT reviews.review_id, reviews.title, reviews.category, reviews.designer, reviews.owner, reviews.review_img_url, reviews.created_at, reviews.votes, COUNT(comments.comment_id) ::INT AS comment_count FROM reviews LEFT JOIN comments ON reviews.review_id = comments.review_id GROUP BY reviews.review_id;`
-  );
+exports.fetchAllReviews = async (
+  sortBy = "created_at",
+  order = "DESC",
+  category
+) => {
+  const validSortBys = [
+    "created_at",
+    "review_id",
+    "title",
+    "category",
+    "designer",
+    "owner",
+    "votes",
+    "comment_count",
+  ];
+  const validOrders = ["ASC", "asc", "DESC", "desc"];
+
+  if (!validSortBys.includes(sortBy) || !validOrders.includes(order)) {
+    return Promise.reject({ status: 400, msg: "Bad request" });
+  }
+
+  let queryMain = `SELECT reviews.review_id, reviews.title, reviews.category, reviews.designer, reviews.owner, reviews.review_img_url, reviews.created_at, reviews.votes, COUNT(comments.comment_id) ::INT AS comment_count FROM reviews LEFT JOIN comments ON reviews.review_id = comments.review_id `;
+  let orderSort = `GROUP BY reviews.review_id ORDER BY ${sortBy} ${order};`;
+
+  let insertArr = [];
+  if (category) {
+    insertArr.push(category);
+    queryMain += `WHERE category = $1 `;
+  }
+  queryMain += orderSort;
+
+  const { rows: reviews } = await db.query(queryMain, insertArr);
 
   return reviews;
 };
