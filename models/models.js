@@ -98,3 +98,16 @@ exports.addComment = async (postArr) => {
 
   return newComment;
 };
+
+exports.removeCommentById = async (id) => {
+  const {
+    rows: [removedComment],
+  } = await db.query(
+    `DELETE FROM comments WHERE comment_id = $1 RETURNING *;`,
+    [id]
+  );
+  if (!removedComment) {
+    return Promise.reject({ status: 404, msg: "Comment not found" });
+  }
+  return removedComment;
+};
