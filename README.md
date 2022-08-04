@@ -1,10 +1,43 @@
 # Northcoders House of Games API
 
-## Add Setup Files:
+- A backend api built on node.js and seeded using PSQL.
 
-- Add .env files (both test and development) for to set PGDATABASE to relevant environment.
-- Optional: Create a parent index.js file for data folder to amalgamate index.js in dev/test data subfolders
+  - Database seeded with datasets of boardgames, users, categories, comments and reviews
 
-## Install packages:
+- Database endpoints include:
+  - `GET /api/categories`
+  - `GET /api/reviews/:review_id`
+  - `PATCH /api/reviews/:review_id`
+  - `GET /api/users`
+  - `GET /api/reviews`
+  - `GET /api/reviews/:review_id/comments`
+  - `POST /api/reviews/:review_id/comments`
+  - `DELETE /api/comments/:comment_id`
+- For a full list of endpoints and the currently accepted queries, please use: `GET /api`
 
-- npm i to install dependencies
+**Hosted @ (Heroku):** https://bumble-nc-games.herokuapp.com/
+
+## Setup:
+
+1. Clone repo to local machine: `git clone https://github.com/BumbleGoose/NC-games-Hosted.git`
+
+2. Install packages: `npm i`
+
+3. Add .env files (both test and development) to set PGDATABASE to relevant environment. (eg: .env.test contains: `PGDATABASE=nc_games_test` **&&** .env.development contains: `PGDATABASE=nc_games`)
+
+4. Add .env files to .gitignore
+
+5. Initialise database using script: `npm run setup-dbs`
+
+6. Test suite uses jest: `npm t`
+   **Note** Test suite auto-seeds database before each test and provides default listener.
+
+7. To seed in the development environment, run script: `npm run seed`
+
+- **Optional:** Create a parent `index.js` file for /db/data folder to amalgamate `/db/data/development-data/index.js` && `/db/data/test-data/index.js`
+
+### Software versions
+
+- PostgreSQL v. 14.4
+
+- Node v. 18.2.0
