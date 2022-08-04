@@ -52,6 +52,7 @@
   "PATCH /api/reviews/:review_id": {
     "description": "Increments/decrements vote count of specified review entry by specified value and serves updated review object",
     "queries": [],
+    "exampleRequest": { "inc_votes": 1 },
     "exampleResponse": {
       "review": {
         "review_id": 1,
@@ -129,6 +130,7 @@
   "POST /api/reviews/:review_id/comments": {
     "description": "Adds a new comment object referencing the specified review, then returns newly added comment object",
     "queries": [],
+    "exampleRequest": { "username": "mallionaire", "body": "blah blah blah" },
     "example response": {
       "newComment": {
         "comment_id": 7,

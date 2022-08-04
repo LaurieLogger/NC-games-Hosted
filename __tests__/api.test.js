@@ -438,8 +438,8 @@ describe("GET /api", () => {
       .get("/api")
       .expect(200)
       .then(({ body: apis }) => {
-        expect(apis).toBeInstanceOf(Object);
-        expect(apis).toEqual(
+        expect(apis.endpoints).toBeInstanceOf(Object);
+        expect(apis.endpoints).toEqual(
           expect.objectContaining({
             "GET /api": expect.any(Object),
             "GET /api/categories": expect.any(Object),
@@ -459,7 +459,7 @@ describe("GET /api", () => {
       .get("/api")
       .expect(200)
       .then(({ body: apis }) => {
-        expect(apis["GET /api/categories"]).toEqual(
+        expect(apis.endpoints["GET /api/categories"]).toEqual(
           expect.objectContaining({
             description: expect.any(String),
             queries: expect.any(Array),

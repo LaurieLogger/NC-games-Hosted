@@ -96,6 +96,6 @@ exports.deleteCommentById = (req, res, next) => {
 
 exports.getAllApis = (req, res, next) => {
   fetchAllApis().then((apis) => {
-    res.status(200).send(apis);
+    res.status(200).send({ endpoints: apis });
   });
 };
