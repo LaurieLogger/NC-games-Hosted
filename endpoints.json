@@ -30,5 +30,121 @@
         }
       ]
     }
+  },
+  "GET /api/reviews/:review_id": {
+    "description": "Serves a review object of specified review_id including number of associated comments",
+    "queries": [],
+    "exampleResponse": {
+      "review": {
+        "review_id": 1,
+        "title": "Agricola",
+        "category": "euro game",
+        "designer": "Uwe Rosenburg",
+        "owner": "mallionaire",
+        "review_body": "Farmyard fun!",
+        "review_img_url": "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
+        "created_at": "2021-01-18T10:00:20.514Z",
+        "votes": 1,
+        "comment_count": 0
+      }
+    }
+  },
+  "PATCH /api/reviews/:review_id": {
+    "description": "Increments/decrements vote count of specified review entry by specified value and serves updated review object",
+    "queries": [],
+    "exampleRequest": { "inc_votes": 1 },
+    "exampleResponse": {
+      "review": {
+        "review_id": 1,
+        "title": "Agricola",
+        "category": "euro game",
+        "designer": "Uwe Rosenburg",
+        "owner": "mallionaire",
+        "review_body": "Farmyard fun!",
+        "review_img_url": "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
+        "created_at": "2021-01-18T10:00:20.514Z",
+        "votes": 11
+      }
+    }
+  },
+  "GET /api/users": {
+    "description": "Serves an array of all user objects",
+    "queries": [],
+    "exampleResponse": {
+      "users": [
+        {
+          "username": "mallionaire",
+          "name": "haz",
+          "avatar_url": "https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg"
+        },
+        {
+          "username": "philippaclaire9",
+          "name": "philippa",
+          "avatar_url": "https://avatars2.githubusercontent.com/u/24604688?s=460&v=4"
+        },
+        {
+          "username": "bainesface",
+          "name": "sarah",
+          "avatar_url": "https://avatars2.githubusercontent.com/u/24394918?s=400&v=4"
+        },
+        {
+          "username": "dav3rid",
+          "name": "dave",
+          "avatar_url": "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png"
+        }
+      ]
+    }
+  },
+  "GET /api/reviews/:review_id/comments": {
+    "description": "Serves an array of all comment objects on the specificed review",
+    "queries": [],
+    "example response": {
+      "comments": [
+        {
+          "comment_id": 1,
+          "body": "I loved this game too!",
+          "review_id": 2,
+          "author": "bainesface",
+          "votes": 16,
+          "created_at": "2017-11-22T12:43:33.389Z"
+        },
+        {
+          "comment_id": 4,
+          "body": "EPIC board game!",
+          "review_id": 2,
+          "author": "bainesface",
+          "votes": 16,
+          "created_at": "2017-11-22T12:36:03.389Z"
+        },
+        {
+          "comment_id": 5,
+          "body": "Now this is a story all about how, board games turned my life upside down",
+          "review_id": 2,
+          "author": "mallionaire",
+          "votes": 13,
+          "created_at": "2021-01-18T10:24:05.410Z"
+        }
+      ]
+    }
+  },
+  "POST /api/reviews/:review_id/comments": {
+    "description": "Adds a new comment object referencing the specified review, then returns newly added comment object",
+    "queries": [],
+    "exampleRequest": { "username": "mallionaire", "body": "blah blah blah" },
+    "example response": {
+      "newComment": {
+        "comment_id": 7,
+        "body": "blah blah blah",
+        "review_id": 1,
+        "author": "mallionaire",
+        "votes": 0,
+        "created_at": "2022-08-04T05:28:34.364Z"
+      }
+    }
+  },
+  "DELETE /api/comments/:comment_id": {
+    "description": "Deletes a specified comment and returns status of 204 to confirm",
+    "queries": [],
+    "example response": { "status": 204, "msg": "No content" }
   }
 }

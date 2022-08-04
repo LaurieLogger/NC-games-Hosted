@@ -432,3 +432,40 @@ describe("DELETE /api/comments/:comment_id", () => {
       });
   });
 });
+describe("GET /api", () => {
+  test("Status 200: returns an object describing all available endpoints on api", () => {
+    return request(app)
+      .get("/api")
+      .expect(200)
+      .then(({ body: apis }) => {
+        expect(apis.endpoints).toBeInstanceOf(Object);
+        expect(apis.endpoints).toEqual(
+          expect.objectContaining({
+            "GET /api": expect.any(Object),
+            "GET /api/categories": expect.any(Object),
+            "GET /api/reviews": expect.any(Object),
+            "GET /api/reviews/:review_id": expect.any(Object),
+            "PATCH /api/reviews/:review_id": expect.any(Object),
+            "GET /api/users": expect.any(Object),
+            "GET /api/reviews/:review_id/comments": expect.any(Object),
+            "POST /api/reviews/:review_id/comments": expect.any(Object),
+            "DELETE /api/comments/:comment_id": expect.any(Object),
+          })
+        );
+      });
+  });
+  test("return endpoints all have correct properties", () => {
+    return request(app)
+      .get("/api")
+      .expect(200)
+      .then(({ body: apis }) => {
+        expect(apis.endpoints["GET /api/categories"]).toEqual(
+          expect.objectContaining({
+            description: expect.any(String),
+            queries: expect.any(Array),
+            exampleResponse: expect.any(Object),
+          })
+        );
+      });
+  });
+});

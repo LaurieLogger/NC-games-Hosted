@@ -10,6 +10,7 @@ const {
   getCommentsByReviewId,
   postComment,
   deleteCommentById,
+  getAllApis,
 } = require(`${__dirname}/controllers/controllers.js`);
 const {
   handleCustomErrors,
@@ -30,6 +31,8 @@ app.get("/api/users", getAllUsers);
 app.get("/api/reviews/:review_id/comments", getCommentsByReviewId);
 app.post("/api/reviews/:review_id/comments", postComment);
 app.delete("/api/comments/:comment_id", deleteCommentById);
+
+app.get("/api", getAllApis);
 
 app.all("*", (req, res) => {
   const msg = { msg: "Path does not exist" };
