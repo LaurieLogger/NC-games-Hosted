@@ -7,6 +7,7 @@ const {
   fetchCommentsByReviewId,
   addComment,
   removeCommentById,
+  fetchAllApis,
 } = require(`${__dirname}/../models/models.js`);
 const { checkExists } = require(`${__dirname}/../utils/utils.js`);
 
@@ -91,4 +92,10 @@ exports.deleteCommentById = (req, res, next) => {
       res.sendStatus(204);
     })
     .catch(next);
+};
+
+exports.getAllApis = (req, res, next) => {
+  fetchAllApis().then((apis) => {
+    res.status(200).send(apis);
+  });
 };

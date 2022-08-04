@@ -1,4 +1,5 @@
 const db = require(`${__dirname}/../db`);
+const fs = require("fs/promises");
 
 exports.fetchAllCategories = async () => {
   const { rows: categories } = await db.query(`SELECT * FROM categories;`);
@@ -110,4 +111,12 @@ exports.removeCommentById = async (id) => {
     return Promise.reject({ status: 404, msg: "Comment not found" });
   }
   return removedComment;
+};
+
+exports.fetchAllApis = async () => {
+  const apiData = await fs.readFile(`${__dirname}/../endpoints.json`, "utf-8");
+
+  const apis = JSON.parse(apiData);
+
+  return apis;
 };
