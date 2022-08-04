@@ -6,6 +6,7 @@ const {
   fetchAllReviews,
   fetchCommentsByReviewId,
   addComment,
+  removeCommentById,
 } = require(`${__dirname}/../models/models.js`);
 const { checkExists } = require(`${__dirname}/../utils/utils.js`);
 
@@ -79,6 +80,15 @@ exports.postComment = (req, res, next) => {
   addComment(postArr)
     .then((newComment) => {
       res.status(201).send({ newComment });
+    })
+    .catch(next);
+};
+
+exports.deleteCommentById = (req, res, next) => {
+  const { comment_id: id } = req.params;
+  removeCommentById(id)
+    .then(() => {
+      res.sendStatus(204);
     })
     .catch(next);
 };
