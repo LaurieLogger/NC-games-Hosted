@@ -7,7 +7,7 @@ on:
 
 jobs:
   test-utiles:
-    runs-on: ubuntu-latesr
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout and Clone
         uses: actions/checkout@v2.4.2
