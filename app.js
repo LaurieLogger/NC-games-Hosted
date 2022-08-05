@@ -1,45 +1,23 @@
+/////////////////////////////REQUIRING/////////////////////////////////////
 const express = require("express");
+const apiRouter = require(`${__dirname}/routes/api-router`);
 const app = express();
 
-const {
-  getAllCategories,
-  getReviewById,
-  patchReview,
-  getAllUsers,
-  getAllReviews,
-  getCommentsByReviewId,
-  postComment,
-  deleteCommentById,
-  getAllApis,
-} = require(`${__dirname}/controllers/controllers.js`);
 const {
   handleCustomErrors,
   handlePsqlErrors,
 } = require(`${__dirname}/errors/errors.js`);
-///////////////////////////////////////////////////////////////////////////
+///////////////////////ROUTING&PARSING/////////////////////////////////////
 
 app.use(express.json());
+app.use("/api", apiRouter);
 
-app.get("/api/categories", getAllCategories);
-
-app.get("/api/reviews", getAllReviews);
-app.get("/api/reviews/:review_id", getReviewById);
-app.patch("/api/reviews/:review_id", patchReview);
-
-app.get("/api/users", getAllUsers);
-
-app.get("/api/reviews/:review_id/comments", getCommentsByReviewId);
-app.post("/api/reviews/:review_id/comments", postComment);
-app.delete("/api/comments/:comment_id", deleteCommentById);
-
-app.get("/api", getAllApis);
-
+////////////////////////ERROR HANDLING/////////////////////////////////////
+app.use(handleCustomErrors);
+app.use(handlePsqlErrors);
 app.all("*", (req, res) => {
   const msg = { msg: "Path does not exist" };
   res.status(404).send(msg);
 });
-////////////////////////////////////////////////////////////////////////////
-app.use(handleCustomErrors);
-app.use(handlePsqlErrors);
 
 module.exports = app;
