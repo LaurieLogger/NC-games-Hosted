@@ -8,13 +8,13 @@ on:
 jobs:
   test-utils:
     runs-on: ubuntu-latest
-      steps:
-        - name: Checkout and Clone
-          uses: actions/checkout@v2.4.2
-        - name: Install Dependencies
-          run: npm install
-        -name: Test Utils
-          run: test-utils
+    steps:
+      - name: Checkout and Clone
+        uses: actions/checkout@v2.4.2
+      - name: Install Dependencies
+        run: npm install
+      - name: Test Utils
+        run: test-utils
 
   test-app:
     runs-on: ubuntu-latest
