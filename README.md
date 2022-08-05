@@ -2,7 +2,9 @@
 
 - A backend api built on node.js and seeded using PSQL.
 
-  - Database seeded with datasets of boardgames, users, categories, comments and reviews
+  - Database seeded with datasets of boardgames, users, categories, comments and reviews.
+
+  - Separated server routes for ease of maintenance.
 
   - Fully integrated test-and-deployment workflow performing unit-testing, integrated testing, and deployment on push.
 
