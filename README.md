@@ -34,7 +34,7 @@
 5. Initialise database using script: `npm run setup-dbs`
 
 6. Test suite uses jest: `npm t`
-   **Note** Test suite auto-seeds database before each test and provides default listener.
+   **Note:** Test suite auto-seeds database before each test and provides default listener.
 
 7. To seed in the development environment, run script: `npm run seed`
 
