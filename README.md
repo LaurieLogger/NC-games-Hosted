@@ -4,6 +4,8 @@
 
   - Database seeded with datasets of boardgames, users, categories, comments and reviews
 
+  - Fully integrated test-and-deployment workflow performing unit-testing, integrated testing, and deployment on push.
+
 - Database endpoints include:
   - `GET /api/categories`
   - `GET /api/reviews/:review_id`
